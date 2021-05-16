@@ -1,21 +1,33 @@
 // TODO: Configure the environment variables
-
+var path = require('path')
+const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
+const fetch = require('node-fetch');
 
 const PORT = 8081
 
-// TODO add Configuration to be able to use env variables
+// Configuration to be able to use env variables
+require('dotenv').config()
+// Create an instance for the server
+const app = express()
 
-'
+/* Middleware*/
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: false
+}));
 
-// TODO: Create an instance for the server
-// TODO: Configure cors to avoid cors-origin issue
-// TODO: Configure express to use body-parser as middle-ware.
-// TODO: Configure express static directory.
+const cors = require('cors');
+
+// Configure cors to avoid cors-origin issue
+app.use(cors());
+
+// Configure express static directory.
+app.use(express.static('dist'))
+
 
 app.get('/', function (req, res) {
-    // res.sendFile('dist/index.html')
-    res.sendFile(path.resolve('src/client/views/index.html'))
+    res.sendFile(path.resolve('dist/index.html'))
 })
 // a route that handling post request for new URL that coming from the frontend
 /* TODO:
@@ -34,6 +46,21 @@ app.get('/', function (req, res) {
        irony : ''
      }
 */
+
+app.post('/data', async (req, res) =>{
+    let url = req.body.url;
+    console.log(url);
+    console.log(process.env.BASE_API_URL+process.env.API_KEY+'&url='+url+'&lang=en');
+    const response = await fetch(process.env.BASE_API_URL+process.env.API_KEY+'&url='+url+'&lang=en');
+    try{
+        const data = await response.json();
+        console.log('finished');
+        res.send(data);
+    }catch(err){
+        console.log(error);
+    }
+
+});
 
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)

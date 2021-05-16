@@ -6,6 +6,16 @@ module.exports = {
     mode: 'production',
     module: {
         rules: [
+            {
+                test :'\/.js$/',
+                exclude : /node_modules/,
+                loader: "babel-loader"
+            },
+            {
+                test : /\.scss$/,
+                use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+            }
+        ]
             // TODO 1: Add babel Loader that match js files as development
             // TODO 2: Add Loaders for
             //    1. converting sass => css
@@ -18,17 +28,20 @@ module.exports = {
           loader: '',
         }
        */
-        ]
+    },
+    output :{
+        libraryTarget: 'var',
+        library: 'Client'
     },
     plugins: [
         new HtmlWebPackPlugin({
             template: './src/client/views/index.html',
             filename: './index.html'
         }),
-        new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })
+        new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
         // TODO: configure workbox-webpack-plugin
     ],
     optimization: {
         // TODO: Add Optimization for JS and CSS
-    }
+    },
 }

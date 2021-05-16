@@ -10,12 +10,13 @@
       <div class="container">
         <p>Enter a URL of an article / a blog to discover its sentiment.</p>
         <section>
-          <form id="form">
+          <form id="form" onsubmit="return Client.submitForm(e)">
             <label for="article-url">URL</label>
-            <input id="article-url" type="text" name="input" value="" placeholder="Enter Article URL here" />
+            <input id="article-url" onsubmit="return Client.submitForm(e)" type="text" name="input" value="" placeholder="Enter Article URL here" />
             <button
               type="submit"
               class="btn-submit"
+              id="submit-btn"
             >
               Submit
             </button>
@@ -23,12 +24,12 @@
         </section>
 
         <section>
-          <strong>Form Results:</strong>
+          <strong>Formxxxx Results:::</strong>
           <div id="text"></div>
           <div id="agreement"></div>
           <div id="subjectivity"></div>
           <div id="confidence"></div>
-          <div id="irony"></div>
+          <div id="irony"></div>  
           <div id="score_tag"></div>
         </section>
       </div>
