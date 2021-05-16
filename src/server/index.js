@@ -55,9 +55,29 @@ app.post('/data', async (req, res) =>{
     try{
         const data = await response.json();
         console.log('finished');
-        res.send(data);
+        if(data.status.code == 0){
+            const requiredData = {
+                text: data.sentence_list[0].text,
+                agreement: data.agreement,
+                subjectivity: data.subjectivity,
+                confidence: data.confidence,
+                irony: data.irony,
+                score_tag: data.score_tag
+            }
+            res.send(requiredData);
+        }
+        else{
+            res.send({
+                text: 'Not available, Please try another link',
+                agreement: 'Not available',
+                subjectivity: 'Not available',
+                confidence: 'Not available',
+                irony: 'Not available',
+                score_tag: 'Not available'
+            });
+        }
     }catch(err){
-        console.log(error);
+        console.log(err);
     }
 
 });

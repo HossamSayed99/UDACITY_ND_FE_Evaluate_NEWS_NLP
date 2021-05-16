@@ -11,7 +11,7 @@
         <p>Enter a URL of an article / a blog to discover its sentiment.</p>
         <section>
           <form id="form" onsubmit="return Client.submitForm(e)">
-            <label for="article-url">URL</label>
+            <label for="article-url" class = "input-label">URL</label>
             <input id="article-url" onsubmit="return Client.submitForm(e)" type="text" name="input" value="" placeholder="Enter Article URL here" />
             <button
               type="submit"
@@ -23,8 +23,8 @@
           </form>
         </section>
 
-        <section>
-          <strong>Formxxxx Results:::</strong>
+        <section class = "analysis-results">
+          <strong style = "color: black;">Form Results: </strong>
           <div id="text"></div>
           <div id="agreement"></div>
           <div id="subjectivity"></div>

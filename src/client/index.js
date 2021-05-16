@@ -13,12 +13,12 @@ const postUrl = async ( url = '', data = {})=>{
    body: JSON.stringify(data), // body data type must match "Content-Type" header        
  });
    try {
-       console.log('Waiting');
-       const newData = await response.json();
-       console.log('finished');
-       return newData;
+        console.log('Waiting');
+        const newData = await response.json();
+        console.log('finished');
+        return newData;
    }catch(error) {
-   console.log("error", error);
+        console.log("error", error);
    }
 }
 
@@ -30,27 +30,23 @@ window.addEventListener('DOMContentLoaded', ()=>{
 function submitForm(e){
     e.preventDefault();
     const url = document.getElementById('article-url').value;
-    alert('submitted: ' + url);
     if(checkURL(url)){
         console.log('Posting');
-        try {
-            postUrl('http://localhost:8081/data', {url: url}).then(
-                (data) => {
-                    console.log('back');
-                    document.getElementById('text').innerHTML = data.sentence_list[0].text;
-                    document.getElementById('agreement').innerHTML = data.agreement;
-                    document.getElementById('subjectivity').innerHTML = data.subjectivity;
-                    document.getElementById('confidence').innerHTML = data.confidence;
-                    document.getElementById('irony').innerHTML = data.irony;
-                    document.getElementById('score_tag').innerHTML = data.score_tag;
-                },
-                ()=>{
-                    console.log('failed');
-                }
-            )    
-        } catch (error) {
-            console.log(error)
-        }
+        postUrl('http://localhost:8081/data', {url: url}).then(
+            (data) => {
+                console.log('back');
+                console.log(data);
+                    document.getElementById('text').innerHTML = `Text is: ${data.text}`;
+                    document.getElementById('agreement').innerHTML = `Agreement state: ${data.agreement}`;
+                    document.getElementById('subjectivity').innerHTML = `Subjectivity sate: ${data.subjectivity}`;
+                    document.getElementById('confidence').innerHTML = `Degree of confidence: ${data.confidence}`;
+                    document.getElementById('irony').innerHTML = `Irony state: ${data.irony}`;
+                    document.getElementById('score_tag').innerHTML = `Score Tage: ${data.score_tag}`;
+            },
+            (e)=>{
+                console.log(e);
+            }
+        )    
     }
     else{
         alert('please enter a valid url');
