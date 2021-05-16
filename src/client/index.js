@@ -42,7 +42,7 @@ function submitForm(e){
                     document.getElementById('subjectivity').innerHTML = `Subjectivity sate: ${data.subjectivity}`;
                     document.getElementById('confidence').innerHTML = `Degree of confidence: ${data.confidence}`;
                     document.getElementById('irony').innerHTML = `Irony state: ${data.irony}`;
-                    document.getElementById('score_tag').innerHTML = `Score Tage: ${data.score_tag}`;
+                    document.getElementById('score_tag').innerHTML = `Score Tag: ${data.score_tag}`;
             },
             (err)=>{
                 console.log(err);
@@ -54,3 +54,5 @@ function submitForm(e){
         document.getElementById('article-url').value = '';
     }
 }
+
+export {postUrl, submitForm}
