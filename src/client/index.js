@@ -1,7 +1,7 @@
 import {checkURL} from './js/checkURL'
 import './styles/style.scss'
 
-
+// A helper function to handle post function. I have re-used function I have written in the previous track
 const postUrl = async ( url = '', data = {})=>{
 
    const response = await fetch(url, {
@@ -22,18 +22,19 @@ const postUrl = async ( url = '', data = {})=>{
    }
 }
 
-
+// Adding the click event listener to the submit button after the window is loaded.
 window.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('submit-btn').addEventListener('click', submitForm);
 })
 
+// Event handler function that performs the post request, gets back the data and update the UI
 function submitForm(e){
-    e.preventDefault();
-    const url = document.getElementById('article-url').value;
+    e.preventDefault(); // preventing default functionality of data
+    const url = document.getElementById('article-url').value; // getting url typed by user
     if(checkURL(url)){
         console.log('Posting');
-        postUrl('http://localhost:8081/data', {url: url}).then(
-            (data) => {
+        postUrl('http://localhost:8081/data', {url: url}).then( // performng post request
+            (data) => { // updating UI
                 console.log('back');
                 console.log(data);
                     document.getElementById('text').innerHTML = `Text is: ${data.text}`;
@@ -43,12 +44,13 @@ function submitForm(e){
                     document.getElementById('irony').innerHTML = `Irony state: ${data.irony}`;
                     document.getElementById('score_tag').innerHTML = `Score Tage: ${data.score_tag}`;
             },
-            (e)=>{
-                console.log(e);
+            (err)=>{
+                console.log(err);
             }
         )    
     }
-    else{
-        alert('please enter a valid url');
+    else{ // If url is not valid, show aler and clear form
+        alert('please enter a valid url'); 
+        document.getElementById('article-url').value = '';
     }
 }

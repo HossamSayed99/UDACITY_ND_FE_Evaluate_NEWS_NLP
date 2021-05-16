@@ -29,33 +29,18 @@ app.use(express.static('dist'))
 app.get('/', function (req, res) {
     res.sendFile(path.resolve('dist/index.html'))
 })
-// a route that handling post request for new URL that coming from the frontend
-/* TODO:
-    1. GET the url from the request body
-    2. Build the URL it should be something like `${BASE_API_URL}?key=${MEAN_CLOUD_API_KEY}&url=${req.body.url}&lang=en`
-    3. Fetch Data from API
-    4. Send it to the client
-    5. REMOVE THIS TODO AFTER DOING IT 😎😎
-    server sends only specified data to the client with below codes
-     const sample = {
-       text: '',
-       score_tag : '',
-       agreement : '',
-       subjectivity : '',
-       confidence : '',
-       irony : ''
-     }
-*/
+
+// Handing post requests from the client
 
 app.post('/data', async (req, res) =>{
     let url = req.body.url;
     console.log(url);
     console.log(process.env.BASE_API_URL+process.env.API_KEY+'&url='+url+'&lang=en');
-    const response = await fetch(process.env.BASE_API_URL+process.env.API_KEY+'&url='+url+'&lang=en');
+    const response = await fetch(process.env.BASE_API_URL+process.env.API_KEY+'&url='+url+'&lang=en'); // Fetching data from api
     try{
         const data = await response.json();
         console.log('finished');
-        if(data.status.code == 0){
+        if(data.status.code == 0){ // If the analsyis is successful, return data
             const requiredData = {
                 text: data.sentence_list[0].text,
                 agreement: data.agreement,
@@ -67,7 +52,7 @@ app.post('/data', async (req, res) =>{
             res.send(requiredData);
         }
         else{
-            res.send({
+            res.send({ // else, notify user
                 text: 'Not available, Please try another link',
                 agreement: 'Not available',
                 subjectivity: 'Not available',
