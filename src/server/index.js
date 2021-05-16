@@ -1,37 +1,46 @@
-// TODO: Configure the environment variables
 var path = require('path')
+// Require Express to run server and routes
 const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
+// Require fetch to be able to make calls to the API
 const fetch = require('node-fetch');
 
 const PORT = 8081
 
 // Configuration to be able to use env variables
 require('dotenv').config()
-// Create an instance for the server
+
+// Start up an instance of app
 const app = express()
 
 /* Middleware*/
 app.use(express.json());
+// Here we are configuring express to use body-parser as middle-ware.
 app.use(express.urlencoded({
   extended: false
 }));
 
+// Cors for cross origin allowance
 const cors = require('cors');
 
 // Configure cors to avoid cors-origin issue
 app.use(cors());
 
-// Configure express static directory.
+// Initialize the main project folder
 app.use(express.static('dist'))
 
+// Setup server
+app.listen(PORT, (error) => {
+    if (error) throw new Error(error)
+    console.log(`Server listening on port ${PORT}!`)
+})
 
+// A GET route setup to return the webpage
 app.get('/', function (req, res) {
     res.sendFile(path.resolve('dist/index.html'))
 })
 
-// Handing post requests from the client
 
+// Handing post requests from the client
 app.post('/data', async (req, res) =>{
     let url = req.body.url;
     console.log(url);
@@ -66,15 +75,3 @@ app.post('/data', async (req, res) =>{
     }
 
 });
-
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
-})
-
-// designates what port the app will listen to for incoming requests
-app.listen(PORT, (error) => {
-    if (error) throw new Error(error)
-    console.log(`Server listening on port ${PORT}!`)
-})
-
-// TODO: export app to use it in the unit testing
