@@ -9,8 +9,9 @@ After cloning, run `npm install`, then run `npm run build-prod` on a terminal an
 ## Hiearchy
 *   src
     *   client
-        *   __test__
+        *   __ test __
             *   testURl.spec.js
+            *   testClient.spec.js
         *   js
             *   checkURL.js
         *   styles
